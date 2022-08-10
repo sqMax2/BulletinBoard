@@ -1,0 +1,86 @@
+{% extends 'default.html' %}
+
+<!-- adding custom filters usage -->
+{% load custom_filters %}
+<!-- adding custom tags usage -->
+{% load custom_tags %}
+{% load i18n %}
+
+<!-- page title -->
+{% block title %}
+Posts
+{% endblock title %}
+
+<!-- News list -->
+{% block content %}
+<h1>{% trans "Search Results" %} ({{ page_obj.paginator.count }})</h1>
+<!--<h5>Today {{ time_now|date:'d.m.Y' }}</h5>-->
+<h5>{% trans "Today" %} {% current_time '%d.%m.%Y' %}</h5>
+<!--{% if news_list %}-->
+<!--    <table>-->
+<!--        <tr>-->
+<!--            {% for news in news_list %}-->
+<!--            <td width="200rem">-->
+<!--                <a href="/news/{{ news.pk }}">-->
+<!--                    <b>{{ news.title|censor }}</b><br/>-->
+<!--                    <span style="font-size:0.8rem">{{ news.dateCreation|date:'d.m.Y' }}</span>><br/>-->
+<!--                    {{ news.text|truncatechars:20|censor }}-->
+<!--                </a>-->
+<!--            </td>-->
+<!--            {% endfor %}-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--{% else %}-->
+<!--    <h2>No news available</h2>-->
+<!--{% endif %}-->
+
+   <!-- request form -->
+   <form action="" method="get">
+       <!-- generating form -->
+       {{ filterset.form.as_p }}
+       <!-- form submit button -->
+       <input type="submit" value="{% trans 'Search' %}" />
+   </form>
+<a href="..">{% trans "Back to All" %}</a>
+   <hr>
+    <table>
+        <tr>
+            {% for post in post_list %}
+            <td width="200rem">
+                <a href="../{{ post.pk }}">
+                    <b>{{ post.title|censor }}</b><br/>
+                    <span style="font-size:0.8rem">{{ post.dateCreation|date:'d.m.Y' }}</span>><br/>
+                    {{ post.text|truncatechars:20|censor }}
+                </a>
+            </td>
+            {% empty %}
+            <h2>{% trans "No posts available" %}</h2>
+            {% endfor %}
+        </tr>
+    </table>
+
+
+
+   <!-- adding pagination -->
+
+   <!-- previous pages -->
+   {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+   <!-- current page -->
+   {{ page_obj.number }}
+
+   <!-- next pages -->
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+{% endblock content %}
