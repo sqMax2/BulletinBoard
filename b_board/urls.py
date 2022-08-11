@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 from django.urls import path, include
 from board.views import set_timezone
 from django.conf.urls.static import static
@@ -27,6 +28,6 @@ urlpatterns = [
     path('tz/', set_timezone, name='set_timezone'),
     path('accounts/', include('allauth.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('logout/', LogoutView.as_view()),
     path('<slug:info>/', include('board.urls', namespace='board')),
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django_filters',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'protect',
     'ckeditor',
     'ckeditor_uploader',
@@ -132,7 +134,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -144,13 +146,14 @@ STATICFILES_DIRS = [
 ]
 # STATIC_ROOT = BASE_DIR / "static"
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
-CKEDITOR_UPLOAD_PATH = MEDIA_ROOT
+CKEDITOR_UPLOAD_PATH = MEDIA_ROOT / 'upload'
 
 # Adding login consts
 # LOGIN_URL = 'sign/login/'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 # allauth login url
 LOGIN_URL = '/accounts/login/'
 
@@ -162,17 +165,24 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # allauth consts
+# ACCOUNT_LOGIN_URL = 'board:account_login'
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = ACCOUNT_LOGIN_URL
+# ACCOUNT_PASSWORD_RESET_REDIRECT_URL = ACCOUNT_LOGIN_URL
+# ACCOUNT_EMAIL_CONFIRMATION_URL = 'board:account_confirm_email'
+# ACCOUNT_PASSWORD_CHANGE_REDIRECT_URL = 'board:account_password'
+# ACCOUNT_SETTINGS_REDIRECT_URL = 'board:account_settings'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_FORMS = {'signup': 'authapp.models.BasicSignupForm'}
+
 # email consts
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
-#personal data stored in .env
+# personal data stored in .env
 load_dotenv(dotenv_path='.env/yandex.env')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
@@ -191,7 +201,7 @@ CACHES = {
 }
 
 # Security config
-if DEBUG == False:
+if not DEBUG:
     # SECURE_PROXY_SSL_HEADER = True
     # SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True

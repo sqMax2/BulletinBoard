@@ -19,12 +19,13 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Author')
+    author = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Author')
     dateCreation = models.DateTimeField(auto_now_add=True, verbose_name='Creation date')
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     text = RichTextField()
     postCategory = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', verbose_name='Category')
     rating = models.SmallIntegerField(default=0)
+    upload = models.FileField(upload_to='upload/', default=None)
 
     template_string = '$text...'
 
@@ -51,13 +52,19 @@ class Post(models.Model):
 
 
 class Message(models.Model):
-    messagePost = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='messages', verbose_name='Message')
-    messageUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages', verbose_name='User')
-    text = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='messages', verbose_name='Post')
+    author = models.OneToOneField(User, on_delete=models.CASCADE, related_name='messages', verbose_name='User')
+    text = RichTextField()
     dateCreation = models.DateTimeField(auto_now_add=True, verbose_name='Creation date')
+    status = models.BooleanField(default=False)
 
     template_string = '$text...'
 
     def __str__(self):
         return f'{self.messagePost.title}: {self.messageUser.username}: ' \
                f'{Template(self.template_string).substitute(text=self.text[0:20])}... {self.dateCreation}'
+
+
+class NewUser(User):
+    status = models.BooleanField(default=False)
+    auth_code = models.CharField(max_length=128)
