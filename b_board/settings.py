@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,9 +46,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'protect',
     'ckeditor',
     'ckeditor_uploader',
+    'protect',
     'board',
 ]
 
@@ -122,13 +123,24 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
+LANGUAGES = [
+    ('en-us', _('English')),
+    ('ru', _('Russian')),
+]
 
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
+
+LANGUAGE_SESSION_KEY = 'session_language_appname'
+LANGUAGE_COOKIE_NAME = 'cookie_language_appname'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -148,7 +160,34 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
-CKEDITOR_UPLOAD_PATH = MEDIA_ROOT / 'upload'
+
+CKEDITOR_UPLOAD_PATH = 'upload/'
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'CMS',
+        'width': '100%',
+        'toolbar_CMS': [
+            ['Format', 'Styles', 'FontSize'],
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript'],
+            ['TextColor', 'BGColor'],
+            ['Link', 'Unlink'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Undo', 'Redo'],
+            ['Copy', 'Paste', 'PasteText', 'PasteFromWord'],
+            ['SelectAll', 'Find', 'Replace'],
+            ['NumberedList', 'BulletedList'],
+            ['Outdent', 'Indent'],
+            ['Smiley', 'SpecialChar', 'Blockquote', 'HorizontalRule'],
+            ['Table', 'Image', 'Youtube'],
+            ['ShowBlocks', 'Source', 'About']
+
+        ],
+        'extraPlugins': 'youtube',
+        'extraAllowedContent': 'iframe[*]',
+        'allowedContent': True,
+    },
+}
+
 
 # Adding login consts
 # LOGIN_URL = 'sign/login/'
@@ -182,13 +221,15 @@ ACCOUNT_FORMS = {'signup': 'authapp.models.BasicSignupForm'}
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
+
+
 # personal data stored in .env
 load_dotenv(dotenv_path='.env/yandex.env')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
-REDIS_AUTH_URL = os.getenv('REDIS_AUTH_URL')
 SERVER_EMAIL = DEFAULT_FROM_EMAIL
+
 
 # Cache config. Folder cache_files should be created at project root dir
 CACHES = {
@@ -200,6 +241,7 @@ CACHES = {
     }
 }
 
+
 # Security config
 if not DEBUG:
     # SECURE_PROXY_SSL_HEADER = True
@@ -208,16 +250,3 @@ if not DEBUG:
     CSRF_COOKIE_SECURE = True
     ALLOWED_HOSTS = ['*']
 SECURE_HSTS_SECONDS = 300
-
-# Internationalization
-USE_I18N = True
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale')
-]
-LANGUAGE_CODE = 'ru'
-LANGUAGES = [
-    ('en-us', _('English')),
-    ('ru', _('Russian')),
-]
-LANGUAGE_SESSION_KEY = 'session_language_appname'
-LANGUAGE_COOKIE_NAME = 'cookie_language_appname'

@@ -12,7 +12,7 @@
 {% block content %}
 <h1>{{ post.title|censor }}</h1>
 <span style="font-size:0.8rem">{{ post.dateCreation|date:'d.m.Y' }}</span><br/>
-{{ post.text|censor }}
+{{ post.text|censor|safe }}
 <br/>
 <a href="{{ post.pk }}/edit/">{% trans "Edit" %}</a> <a href="{{ post.pk }}/delete/">{% trans "Delete" %}</a>
 <br/><br/>

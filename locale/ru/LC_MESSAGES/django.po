@@ -1,0 +1,151 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-08-12 14:02+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+#: .\Templates\default.html:30
+msgid "Hospitable tavern"
+msgstr "Гостеприимная таверна"
+
+#: .\Templates\default.html:40
+msgid "Posts"
+msgstr "Объявления"
+
+#: .\Templates\default.html:43
+msgid "Messages"
+msgstr "Сообщения"
+
+#: .\Templates\default.html:73 .\Templates\default.html:85
+msgid "set"
+msgstr "задать"
+
+#: .\Templates\default.html:79
+msgid "Time zone"
+msgstr "Часовой пояс"
+
+#: .\Templates\post.html:17
+msgid "Edit"
+msgstr "Редактировать"
+
+#: .\Templates\post.html:17 .\Templates\post_delete.html:9
+msgid "Delete"
+msgstr "Удалить"
+
+#: .\Templates\post.html:19
+msgid "Back"
+msgstr "Назад"
+
+#: .\Templates\post_delete.html:4
+msgid "Delete post"
+msgstr "Удалить объявление"
+
+#: .\Templates\post_delete.html:8
+msgid "Deleting"
+msgstr "Удаляю"
+
+#: .\Templates\post_edit.html:4
+msgid "Post"
+msgstr "Объявление"
+
+#: .\Templates\post_edit.html:9
+msgid "Save"
+msgstr "Сохранить"
+
+#: .\Templates\post_list.html:15
+msgid "All"
+msgstr "Все"
+
+#: .\Templates\post_list.html:17 .\Templates\post_search.html:18
+msgid "Today"
+msgstr "Сегодня"
+
+#: .\Templates\post_list.html:43 .\Templates\post_search.html:42
+msgid "Search"
+msgstr "Искать"
+
+#: .\Templates\post_list.html:43
+msgid "Create"
+msgstr "Создать"
+
+#: .\Templates\post_list.html:57 .\Templates\post_search.html:57
+msgid "No posts available"
+msgstr "Нет доступных объявлений"
+
+#: .\Templates\post_search.html:16
+msgid "Search Results"
+msgstr "Результаты поиска"
+
+#: .\Templates\post_search.html:44
+msgid "Back to All"
+msgstr "Назад ко всем объявлениям"
+
+#: .\Templates\protect\index.html:4
+msgid "Authorized User"
+msgstr "Авторизованный пользователь"
+
+#: .\Templates\protect\index.html:4
+msgid "Page"
+msgstr "Страница"
+
+#: .\Templates\protect\index.html:5
+msgid "Could contain personal info"
+msgstr "Может содержать личную информацию"
+
+#: .\Templates\protect\index.html:10
+msgid "Subscribe"
+msgstr "Подписаться"
+
+#: .\Templates\protect\index.html:13
+msgid "Exit"
+msgstr "Выйти"
+
+#: .\b_board\settings.py:128
+msgid "English"
+msgstr "English"
+
+#: .\b_board\settings.py:129
+msgid "Russian"
+msgstr "Русский"
+
+#: .\board\filters.py:25
+msgid "Creation date since"
+msgstr "Дата создания от"
+
+#: .\board\filters.py:39
+msgid "Title contains:"
+msgstr "Заголовок содержит:"
+
+#: .\board\forms.py:12 .\board\models.py:26
+msgid "Title"
+msgstr "Заголовок"
+
+#: .\board\forms.py:35
+msgid "Text"
+msgstr "Текст"
+
+#: .\board\forms.py:36
+msgid "Author"
+msgstr "Автор"
+
+#: .\board\forms.py:37
+msgid "Category"
+msgstr "Категория"
+
+#: .\board\models.py:13
+msgid "category name"
+msgstr "Имя категории"

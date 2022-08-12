@@ -1,7 +1,8 @@
 from django_filters import FilterSet, ModelMultipleChoiceFilter, DateFilter
 from django.forms import DateInput, CheckboxSelectMultiple
-from .models import Category, Post, Message
 from django.utils.translation import gettext as _
+
+from .models import Category, Post, Message
 
 
 class PostFilter(FilterSet):

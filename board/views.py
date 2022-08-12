@@ -1,10 +1,12 @@
-import pytz
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.core.cache import cache
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+
+import pytz
+
 from .filters import PostFilter
 from .forms import PostForm, ProfileForm
 from .models import Post, Message
@@ -36,6 +38,7 @@ class PostList(ListView):
     # post list generation
     def get_queryset(self):
         queryset = super().get_queryset()
+        self.filterset = PostFilter(self.request.GET, queryset.filter())
         # current_url = self.request.path
         return self.filterset.qs
 

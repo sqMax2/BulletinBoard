@@ -1,12 +1,11 @@
-# signal
 from django.contrib.auth.models import User
-
-from .models import Category, Post, Message
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives, send_mail
 from django.db.models.signals import post_save, m2m_changed, pre_save
 from django.dispatch import receiver
 from django.db import transaction
+
+from .models import Category, Post, Message
 from b_board.settings import DEFAULT_FROM_EMAIL
 
 

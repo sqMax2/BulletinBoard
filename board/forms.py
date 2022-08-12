@@ -1,14 +1,17 @@
+from ckeditor_uploader.fields import RichTextUploadingFormField
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Post
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 
+from .models import Post
+
 
 class PostForm(forms.ModelForm):
-    text = forms.Textarea()
+    # text = forms.Textarea()
     # text.label = _('Text')
     title = forms.CharField(max_length=40, label=_('Title'))
+    text = RichTextUploadingFormField(config_name='default')
 
     class Meta:
         model = Post

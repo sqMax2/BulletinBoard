@@ -50,7 +50,7 @@ Posts
                 <a href="{{ post.pk }}">
                     <b>{{ post.title|censor }}</b><br/>
                     <span style="font-size:0.8rem">{{ post.dateCreation|date:'d.m.Y' }}</span>><br/>
-                    {{ post.text|truncatechars:20|censor }}
+                    {{ post.plainText|truncatechars:20|censor }}
                 </a>
             </td>
             {% empty %}

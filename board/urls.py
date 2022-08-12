@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import PostList, PostDetail, PostSearch, PostCreate, PostEdit, PostDelete
 # cache decorator
 from django.views.decorators.cache import cache_page
+
+from .views import PostList, PostDetail, PostSearch, PostCreate, PostEdit, PostDelete
+
 
 
 app_name = 'newsapp'
