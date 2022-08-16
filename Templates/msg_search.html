@@ -41,22 +41,30 @@ Posts
        <!-- form submit button -->
        <input type="submit" value="{% trans 'Search' %}" />
    </form>
-<a href="..">{% trans "Back to All" %}</a>
    <hr>
     <table>
         <tr>
-            {% for post in post_list %}
+            {% for msg in msg_list %}
             <td width="200rem">
-                <a href="../{{ post.pk }}">
-                    <b>{{ post.author.username }}</b><br/>
-                    <b>{{ post.title|censor }}</b><br/>
-                    <i>{{ post.postCategory.name }}</i><br/>
-                    <span style="font-size:0.8rem">{{ post.dateCreation|date:'d.m.Y' }}</span>><br/>
-                    {{ post.plainText|truncatechars:20|censor }}
+                <a href="{{ msg.pk }}">
+                    <b>{{ msg.post.author.username }}</b><br/>
+                    <span style="font-size:0.8rem">{{ msg.post.dateCreation|date:'d.m.Y' }}<br/>
+                        <i>{{ msg.post.postCategory.name }}</i><br/>
+                    {{ msg.post.title|censor }}<br/>
+                    {{ msg.post.plainText|truncatechars:20|censor }}</span>
+                    <hr>
+                    <b>{{ msg.author.username }}</b><br/>
+                    <span style="font-size:0.8rem">{{ msg.dateCreation|date:'d.m.Y' }}</span>><br/>
+                    {{ msg.text|truncatechars:20|censor }}<br/>
+                    {% if not msg.status %}
+                    {% trans "Not " %}
+                    {% endif %}
+                    {% trans "Accepted" %}
+
                 </a>
             </td>
             {% empty %}
-            <h2>{% trans "No posts available" %}</h2>
+            <h2>{% trans "No messages available" %}</h2>
             {% endfor %}
         </tr>
     </table>

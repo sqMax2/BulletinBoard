@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'authapp',
     'protect',
-    'board',
+    'board.apps.BoardConfig',
 ]
 
 # site id
@@ -215,7 +215,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_FORMS = {'signup': 'authapp.models.BasicSignupForm'}
 
 # email consts

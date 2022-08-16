@@ -31,5 +31,6 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('logout/', LogoutView.as_view()),
-    path('<slug:info>/', include('board.urls', namespace='board')),
+    path('posts/', include('board.urls', namespace='board')),
+    path('messages/', include('board.urls_msg', namespace='board_msg'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

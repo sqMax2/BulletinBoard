@@ -23,6 +23,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
+
 
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Author')
@@ -30,15 +34,8 @@ class Post(models.Model):
     title = models.CharField(max_length=128, verbose_name=_('Title'))
     text = RichTextUploadingField()
     postCategory = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', verbose_name='Category')
-    rating = models.SmallIntegerField(default=0)
-    # upload = models.FileField(upload_to='upload/', default=None)
 
     template_string = '$text...'
-
-    # Rating modifiers
-    def like(self):
-        self.rating += 1
-        self.save()
 
     @property
     def no_category(self):
@@ -47,7 +44,6 @@ class Post(models.Model):
     def textify(self, html):
         # Remove html tags and continuous whitespaces
         templatedHTML = Template(self.template_string).substitute(text=html)
-        print(templatedHTML)
         text_only = re.sub('[ \t]+', ' ', strip_tags(templatedHTML))
         text_only = re.sub('&nbsp;', ' ', text_only)
         # Strip single spaces in the beginning of each line
@@ -77,16 +73,19 @@ class Post(models.Model):
 
 class Message(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='messages', verbose_name='Post')
-    author = models.OneToOneField(User, on_delete=models.CASCADE, related_name='messages', verbose_name='User')
-    text = RichTextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='messages', verbose_name='User')
+    text = models.TextField()
     dateCreation = models.DateTimeField(auto_now_add=True, verbose_name='Creation date')
     status = models.BooleanField(default=False)
 
     template_string = '$text...'
 
     def __str__(self):
-        return f'{self.messagePost.title}: {self.messageUser.username}: ' \
+        return f'{self.post.title}: {self.author.username}: ' \
                f'{Template(self.template_string).substitute(text=self.text[0:20])}... {self.dateCreation}'
+
+    def get_absolute_url(self):
+        return reverse_lazy('board_msg:msg_detail', kwargs={'pk': str(self.id)}, current_app='board_msg')
 
 
 class NewUser(User):

@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from django.utils.translation import gettext as _
 
-from .models import Post
+from .models import Post, Message
 
 
 class PostForm(forms.ModelForm):
@@ -37,6 +37,23 @@ class PostForm(forms.ModelForm):
         self.fields['text'].label = _('Text')
         self.fields['author'].label = _('Author')
         self.fields['postCategory'].label = _('Category')
+
+
+class MessageForm(forms.ModelForm):
+    # text.label = _('Text')
+    text = forms.Textarea()
+
+    class Meta:
+        model = Message
+        fields = [  # '__all__'
+            'author',
+            'text',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(MessageForm, self).__init__(*args, **kwargs)
+        self.fields['text'].label = _('Text')
+        self.fields['author'].label = _('Author')
 
 
 class ProfileForm(forms.ModelForm):

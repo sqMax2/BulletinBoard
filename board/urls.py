@@ -6,7 +6,7 @@ from .views import PostList, PostDetail, PostSearch, PostCreate, PostEdit, PostD
 
 
 
-app_name = 'newsapp'
+app_name = 'board'
 urlpatterns = [
     path('', cache_page(30)(PostList.as_view()), name='post_list'),
     # with cache

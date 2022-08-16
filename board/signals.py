@@ -9,90 +9,55 @@ from .models import Category, Post, Message
 from b_board.settings import DEFAULT_FROM_EMAIL
 
 
-@receiver(pre_save, sender=User)
-def user_register_handler(sender, instance, action, **kwargs):  # TODO send confirmation e-mail
-    return
-    # print(instance)
-    # print(f'created calls. Action is: {action}. Instance is a Post: {isinstance(instance, Post)}')
-    # if action == 'post_add' and isinstance(instance, Post):
-    #     categoryType = dict(instance.CATEGORY_CHOICES)[instance.categoryType]
-    #     redirectURL = f'/{categoryType.lower()}{"s" if categoryType[-1]!="s" else ""}/{instance.id}'
-    #     html_content = render_to_string(
-    #         'post_created_mail.html',
-    #         {
-    #             'post': instance,
-    #             'redirectURL': redirectURL,
-    #
-    #         }
-    #     )
-    #     # print(html_content)
-    #     # mailing list
-    #     mailing_list = list(set(instance.postCategory.all().values_list('subscribers__email', flat=True)))
-    #     if '' in mailing_list:
-    #         mailing_list.remove('')
-    #     # print(mailing_list)
-    #     if len(mailing_list):
-    #         msg = EmailMultiAlternatives(
-    #             subject=f'{instance.author.authorUser.username}: {instance.title} '
-    #                     f'{instance.dateCreation.strftime("%d.%m.%Y")}',
-    #             body=instance.text,
-    #             from_email=DEFAULT_FROM_EMAIL,
-    #             to=mailing_list
-    #         )
-    #         msg.attach_alternative(html_content, 'text/html')
-    #         msg.send()
-    #         # print('Notification sent')
-
-
-@receiver(pre_save, sender=Message)
-# @on_transaction_commit
-def notify_subscribers(sender, instance, action, **kwargs):
-    # print(instance)
+@receiver(post_save, sender=Message)
+def notify_author(sender, instance, **kwargs):
+    redirectURL = f'http://127.0.0.1:8000{instance.get_absolute_url()}'
     if instance.status:
         mail = instance.author.email
-        send_mail(
-            'Subj',
-            'Message',
-            f'{DEFAULT_FROM_EMAIL}',
-            [mail],
-            fail_silently=False,
+        subject = 'Your message was accepted'
+        body = f'Your message replying post {instance.post.title} was accepted.'
+        html_content = render_to_string(
+            'mail_msg_accept.html',
+            {
+                'post': instance,
+                'redirectURL': redirectURL,
+            }
         )
-        return
 
-    mail = instance.post.author.email
-    send_mail(
-        'Subj',
-        'Message',
-        f'{DEFAULT_FROM_EMAIL}',
-        [mail],
-        fail_silently=False,
+        # send_mail(
+        #     'Your message was accepted',
+        #     f'Your <a href=http://127.0.0.1:8000/{instance.get_absolute_url()}>message</a> replying post '
+        #     f'<i>{instance.post.title}</i> was accepted.',
+        #     f'{DEFAULT_FROM_EMAIL}',
+        #     [mail],
+        #     fail_silently=False,
+        # )
+        # return
+    else:
+        mail = instance.post.author.email
+        subject = 'You have a new message'
+        body = f'You have a new reply on Your post {instance.post.title}.'
+        html_content = render_to_string(
+            'mail_msg_reply.html',
+            {
+                'post': instance,
+                'redirectURL': redirectURL,
+            }
+        )
+    # send_mail(
+    #     'You have a new message',
+    #     f'You have a new <a href=http://127.0.0.1:8000/{instance.get_absolute_url()}>reply</a> on Your post '
+    #     f'<i>{instance.post.title}</i>.',
+    #     f'{DEFAULT_FROM_EMAIL}',
+    #     [mail],
+    #     fail_silently=False,
+    # )
+    print(f'sending email to {mail}')
+    msg = EmailMultiAlternatives(
+        subject=subject,
+        body=body,
+        from_email=DEFAULT_FROM_EMAIL,
+        to=[mail]
     )
-# TODO send mail
-#     if action == 'post_add' and isinstance(instance, Post):
-#         categoryType = dict(instance.CATEGORY_CHOICES)[instance.categoryType]
-#         redirectURL = f'/{categoryType.lower()}{"s" if categoryType[-1]!="s" else ""}/{instance.id}'
-#         html_content = render_to_string(
-#             'post_created_mail.html',
-#             {
-#                 'post': instance,
-#                 'redirectURL': redirectURL,
-#
-#             }
-#         )
-#         # print(html_content)
-#         # mailing list
-#         mailing_list = list(set(instance.postCategory.all().values_list('subscribers__email', flat=True)))
-#         if '' in mailing_list:
-#             mailing_list.remove('')
-#         # print(mailing_list)
-#         if len(mailing_list):
-#             msg = EmailMultiAlternatives(
-#                 subject=f'{instance.author.authorUser.username}: {instance.title} '
-#                         f'{instance.dateCreation.strftime("%d.%m.%Y")}',
-#                 body=instance.text,
-#                 from_email=DEFAULT_FROM_EMAIL,
-#                 to=mailing_list
-#             )
-#             msg.attach_alternative(html_content, 'text/html')
-#             msg.send()
-#             # print('Notification sent')
+    msg.attach_alternative(html_content, 'text/html')
+    msg.send()

@@ -10,11 +10,16 @@
 
 <!-- News list -->
 {% block content %}
-<h1>{{ post.title|censor }}</h1>
+<h1>{{ post.author.username }}<br/>
+    {{ post.title|censor }}
+</h1>
 <span style="font-size:0.8rem">{{ post.dateCreation|date:'d.m.Y' }}</span><br/>
+<p><i>{% trans "Category" %}: {{ post.postCategory.name }}</i></p>
 {{ post.text|censor|safe }}
 <br/>
 <a href="{{ post.pk }}/edit/">{% trans "Edit" %}</a> <a href="{{ post.pk }}/delete/">{% trans "Delete" %}</a>
+<br/><br/>
+<a href="../messages/create/?post={{ post.pk }}">{% trans "Send message" %}</a>
 <br/><br/>
 <a href="./">{% trans "Back" %}</a>
 {% endblock content %}
